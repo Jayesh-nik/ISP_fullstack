@@ -3,17 +3,292 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | SpeedNet</title>
-  <link rel="stylesheet" href="style.css">
+  <title>SpeedNet - Internet Service Provider</title>
+  <style>
+    /* ===== THEME VARIABLES ===== */
+    :root {
+      --primary: #1E3A8A;
+      --secondary: #0EA5E9;
+      --accent: #14B8A6;
+      --background: #F9FAFB;
+      --surface: #FFFFFF;
+      --text: #111827;
+      --subtle: #F1F5F9;
+    }
+    body.dark {
+      --primary: #0EA5E9;
+      --secondary: #1E3A8A;
+      --accent: #14B8A6;
+      --background: #0F172A;
+      --surface: #1E293B;
+      --text: #E5E7EB;
+      --subtle: #1E293B;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+      scroll-behavior: smooth;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 { margin: 0; font-size: 1.8em; }
+    nav a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover { color: var(--secondary); }
+    .toggle-btn {
+      background: var(--accent);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .toggle-btn:hover { background: #0f9a90; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 90px 20px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      transition: 0.4s;
+    }
+    .hero h2 { font-size: 2.8em; margin-bottom: 15px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      margin-top: 20px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn:hover { background: #0f9a90; }
+
+    /* PLANS */
+    .plans {
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .plan {
+      background: var(--surface);
+      border-radius: 15px;
+      padding: 25px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s, background 0.4s;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    .plan.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.8s ease-in-out;
+    }
+    .plan h3 { color: var(--primary); }
+    .price { font-size: 1.6em; color: var(--secondary); }
+    .highlight { border: 2px solid var(--accent); }
+
+    /* FEATURES */
+    .features {
+      padding: 60px 20px;
+      background: var(--subtle);
+      text-align: center;
+      transition: background 0.4s;
+    }
+    .features h2 { margin-bottom: 30px; font-size: 2.2em; color: var(--primary); }
+    .feature {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    .feature.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.8s ease-in-out;
+    }
+    .feature h3 { color: var(--secondary); }
+
+    /* CONTACT */
+    .contact {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .contact input, .contact textarea {
+      width: 320px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+    }
+    .contact button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .contact button:hover { background: #0f9a90; }
+
+    /* FOOTER */
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.4s;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .plans, .features-list {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Contact Us</h1>
-  <form id="contactForm">
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="email" id="email" placeholder="Your Email" required>
-    <textarea id="message" placeholder="Your Message" required></textarea>
+
+<header>
+  <h1>SpeedNet</h1>
+  <nav>
+    <a href="#plans">Plans</a>
+    <a href="#features">Features</a>
+    <a href="#contact">Contact</a>
+    <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Experience Lightning-Fast Internet</h2>
+  <p>Unlimited data, seamless streaming, and powerful connectivity at your fingertips.</p>
+  <a href="#plans" class="btn">Check Plans</a>
+</section>
+
+<!-- PLANS -->
+<section id="plans" class="plans">
+  <div class="plan">
+    <h3>Basic Plan</h3>
+    <div class="price">₹499 / month</div>
+    <ul>
+      <li>Speed: 50 Mbps</li>
+      <li>Unlimited Data</li>
+      <li>Free Installation</li>
+      <li>WiFi Router Included</li>
+    </ul>
+    <a href="#contact" class="btn">Get Started</a>
+  </div>
+  <div class="plan highlight">
+    <h3>Standard Plan</h3>
+    <div class="price">₹799 / month</div>
+    <ul>
+      <li>Speed: 100 Mbps</li>
+      <li>Unlimited Data</li>
+      <li>Dual-Band Router</li>
+      <li>Priority Support</li>
+    </ul>
+    <a href="#contact" class="btn">Get Started</a>
+  </div>
+  <div class="plan">
+    <h3>Premium Plan</h3>
+    <div class="price">₹1199 / month</div>
+    <ul>
+      <li>Speed: 200 Mbps</li>
+      <li>Unlimited Data</li>
+      <li>Smart WiFi Router</li>
+      <li>24/7 Premium Support</li>
+    </ul>
+    <a href="#contact" class="btn">Get Started</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features">
+  <h2>Why Choose SpeedNet?</h2>
+  <div class="features-list" style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center;">
+    <div class="feature"><h3>⚡ Blazing Speeds</h3><p>Stream 4K videos, game online, and work smoothly without lag.</p></div>
+    <div class="feature"><h3>📶 Free Router</h3><p>Get a dual-band router free with every plan.</p></div>
+    <div class="feature"><h3>📞 24/7 Support</h3><p>Always available via call, chat, or email.</p></div>
+    <div class="feature"><h3>🛡️ Secure Connection</h3><p>Safe browsing with built-in firewall & encryption.</p></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <form onsubmit="submitForm(event)">
+    <input type="text" placeholder="Your Name" required><br>
+    <input type="email" placeholder="Your Email" required><br>
+    <textarea rows="5" placeholder="Your Message"></textarea><br>
     <button type="submit">Send</button>
   </form>
-  <script src="script.js"></script>
+</section>
+
+<footer>
+  <p>© 2025 SpeedNet. All rights reserved.</p>
+</footer>
+
+<script>
+  // Dark Mode Toggle
+  function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+    const btn = document.querySelector(".toggle-btn");
+    btn.textContent = document.body.classList.contains("dark")
+      ? "☀️ Light Mode"
+      : "🌙 Dark Mode";
+  }
+
+  // Fake Form Submit
+  function submitForm(e) {
+    e.preventDefault();
+    alert("✅ Thank you! We will contact you soon.");
+    e.target.reset();
+  }
+
+  // Scroll Animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("show");
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll(".plan, .feature").forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
